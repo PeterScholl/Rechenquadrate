@@ -397,6 +397,10 @@ class Rechenquadrat:
         for i in range(9):
             print(i+1,end="")
             print(''.join(map(lambda x: '+' if x else '.',lsg_tab[i])))
+            
+        #TODO:
+        # - Wenn es schon eindeutige Ergebnisse gibt?!
+        # - Wenn es zwei Möglichkeiten gibt, wie geht man mit wenn/dann bzw. Fallunterscheidungen um...
                     
         
 
