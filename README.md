@@ -6,3 +6,4 @@ Python-Tool to generate PDF-Document with tasks called "Rechenquadat"
 # Files
 * pdftk.py - Methods to work with pdf-Files (Infos from ChatGPT)
 * GPT_Rechenquadrate.py - Everything to work with a Rechenquadrat (class Rechenquadrat)
+* rechenquadrate_erzeugen.py - directly generates a pdf-Document with 4 puzzles
