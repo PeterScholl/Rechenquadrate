@@ -291,7 +291,115 @@ class Rechenquadrat:
                 z = "+-x÷"[random.randint(0,3)]
                 self.rechenzeichen.append(z)
             lsg = self.allValidCiffers()
-            
+
+    def loesungenGleichung(self,rechenzeichen1,rechenzeichen2,ergebnis):
+        """
+        Bestimmt alle Lösungen einer Rechnung aus zwei Rechenzeichen und dem gegebenen Ergebnis
+        
+        :return: eine Liste aller Lösungsmöglichkeiten in korrekter Reihenfolge
+        """
+        #Alle Ziffern bestimmen bei denen die Rechnung korrekt gelöst ist
+        loesungen = []
+        #alle Ziffern auf 0 setzen
+        ziffern = [0] * 3
+        position = 0 #Aktuelle position
+        while position >=0 and position < 3:
+            if ziffern[position]>=9: #Maximale Ziffer erreicht
+                ziffern[position]=0
+                position-=1
+            else:
+                ziffern[position]+=1
+                if ziffern[position] in ziffern[0:position]:
+                    pass
+                elif position < 2: #Gleichung noch nicht vollständig
+                    position+=1
+                elif position==2: #Gleichung vollständig
+                    expr = str(ziffern[0])+rechenzeichen1+str(ziffern[1])+rechenzeichen2+str(ziffern[2])
+                    wert = self.evaluate_expression(expr)
+                    #print(expr,wert)
+                    if wert[0]==ergebnis and wert[1] and wert[2] and wert[3]:
+                        #Lösung anhängen
+                        loesungen.append(copy.deepcopy(ziffern))
+                else:
+                    raise Exception("Error this case position = 3 should not be reached")
+                
+        return loesungen
+        
+    def loesungenAufPosition(self,glloesungen):
+        """
+        Verteilt die dreistelligen loesungen in loesungen auf die einzelnen Positionen
+        
+        :return: liste von drei sets(!), die die Ziffern auf der jeweiligen Position enthalten
+        """
+        loesungen = [set(),set(),set()]
+        for i in glloesungen:
+            for j in range(3):
+                loesungen[j].add(i[j])
+        return loesungen
+    
+    def loeseRechenquadratStrategisch(self):
+        """
+        Bestimmt die Lösungen des Rechenquadrates systematisch und versucht die Schwierigkeit des Rechenquadrats
+        zu beurteilen
+        """
+        loes_zeile1 = self.loesungenGleichung(self.rechenzeichen[0],self.rechenzeichen[1],self.ergebnisse[0])
+        loes_zeile2 = self.loesungenGleichung(self.rechenzeichen[2],self.rechenzeichen[3],self.ergebnisse[1])
+        loes_zeile3 = self.loesungenGleichung(self.rechenzeichen[4],self.rechenzeichen[5],self.ergebnisse[2])
+        loes_spalte1 = self.loesungenGleichung(self.rechenzeichen[6],self.rechenzeichen[9],self.ergebnisse[3])
+        loes_spalte2 = self.loesungenGleichung(self.rechenzeichen[7],self.rechenzeichen[10],self.ergebnisse[4])
+        loes_spalte3 = self.loesungenGleichung(self.rechenzeichen[8],self.rechenzeichen[11],self.ergebnisse[5])
+        print("Anzahl der Lösungen:")
+        print("Zeilen:", len(loes_zeile1),len(loes_zeile2),len(loes_zeile3))
+        print("Spalten:",len(loes_spalte1), len(loes_spalte2),len(loes_spalte3))
+        #Lösungen aus den drei Zeilen pro Feld bestimmen
+        zl = self.loesungenAufPosition(loes_zeile1)
+        zl +=self.loesungenAufPosition(loes_zeile2)
+        zl +=self.loesungenAufPosition(loes_zeile3)
+        print("Anzahlen der Lösungen auf den 9 Positionen aus den Zeilen")
+        #print(zl)
+        for i in zl:
+            print(len(i),end=" ")
+        print()
+
+        #Lösungen aus den drei Spalten pro Feld bestimmen
+        slb = self.loesungenAufPosition(loes_spalte1)
+        slb +=self.loesungenAufPosition(loes_spalte2)
+        slb +=self.loesungenAufPosition(loes_spalte3)
+        sl=[] #zum umsortieren
+        for i in range(3):
+            sl+=[slb[i],slb[i+3],slb[i+6]]
+        print("Anzahlen der Lösungen auf den 9 Positionen aus den Spalten")
+        #print(sl)
+        for i in sl:
+            print(len(i),end=" ")
+        print()
+        
+        #Schnittmengen bilden
+        schnitt = [0]*9
+        for i in range(9):
+            schnitt[i] = zl[i] & sl[i]
+        print("Schnittmengen auf den neun Positionen")
+        print(schnitt)
+        print("Anzahl auf den Postionen nach Schnitt")
+        print(list(map(len,schnitt)))
+        
+        #Tabelle erzeugen lsg_tab[position][ziffer] - True wenn möglich, False wenn nicht mehr möglich
+        lsg_tab = [[True for _ in range(9)] for _ in range(9)]
+        #Eintragen
+        for pos in range(9):
+            for zif in range(9):
+                if not zif+1 in schnitt[pos]:
+                    lsg_tab[pos][zif]=False
+        #print(lsg_tab)
+        #Zuordnungstabelle lesbar ausgeben
+        print("Welche Ziffern (Spalten) sind in welcher Position(Zeilen) möglich:")
+        print(" 123456789")
+        for i in range(9):
+            print(i+1,end="")
+            print(''.join(map(lambda x: '+' if x else '.',lsg_tab[i])))
+                    
+        
+
     def ausgabe(self):
         output = ""
         

@@ -83,6 +83,35 @@ def rechenquadratInsPDF(pdf_canvas, rechenzeichen, ergebnisse, x, y, width, heig
                                             background_color=pdftk.colors.Color(0,0,0))
     
     
+def einRechenquadratPDF(dateiname,rq):
+    #Parameter prüfen
+    if not (isinstance(dateiname,str)): #and isinstance(rq,GPT_Rechenquadrat.Rechenquadrat)):
+        raise Exception("Wrong parameter types: string,Rechenquadrat: ",isinstance(dateiname,str) , isinstance(rq,GPT_Rechenquadrat.Rechenquadrat))
+    
+    infotext=("Es werden alle Zahlen von 1 bis 9 so eingetragen, dass die Rechnung schlüssig wird. " 
+            "Keine Zahl darf zweimal vorkommen. Es gilt nicht die Regel \"Punkt- vor Strichrechnung\", " 
+            "sondern es wird von oben nach unten bzw. von links nach rechts gerechnet.")
+
+    width_a4,height_a4 = pdftk.A4
+    filename = dateiname if dateiname[-4::]==".pdf" else dateiname+".pdf"
+    #zunächst prüfen ob die Datei existiert
+    if os.path.exists(filename):
+        #Raise exception
+        raise Exception("File name already exists");
+
+    # PDF-Datei erstellen
+    c = pdftk.canvas.Canvas(filename, pagesize=pdftk.A4)
+    c.setTitle("Rechenquadrat "+dateiname)
+    c.setAuthor("Peter Scholl")
+    rechenquadratInsPDF(c,rq.get_rechenzeichen(),rq.ergebnisse,45,30+390,230,420)
+    pdftk.write_text_in_rectangle(c,infotext,45,110+390,230,font_size=10,font="Caladea-Regular")
+    pdftk.write_text_in_rectangle(c,"Das Spiel mit den Zahlen",45,360+390,230,font_size=10,font="Caladea-Regular")
+    pdftk.write_text_in_rectangle(c,"Rechenquadrat",45,380+390,230,font_size=20,font="Caladea-Bold")
+
+    pdftk.write_text_in_rectangle(c,"Rechenquadrat "+dateiname+" - Erstellt von peter.scholl@aeg-online.de",330,30,200,font_size=8,font="Helvetica")
+    # Speichern Sie die PDF-Datei
+    c.save()
+    
 
 if __name__ == "__main__":
     #Things to do if not imported
