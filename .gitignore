@@ -4,6 +4,12 @@ Rechenquadrate/*.pdf
 MonoSpatial.ttf
 VeraMoBd.ttf
 
+##### Python-files
+__pycache__/
+*.pyc
+*.pyo
+
+
 ##### Windows
 # Windows thumbnail cache files
 Thumbs.db

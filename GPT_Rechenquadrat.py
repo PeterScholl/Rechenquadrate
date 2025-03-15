@@ -472,7 +472,7 @@ if __name__ == "__main__":
     expression = "3+7/2"
     result,fRI,pI,aP = rq.evaluate_expression(expression)
     print(expression,"=",result,pI)
-    expression = "5/2*4"
+    expression = "5÷2*4"
     result,fRI,pI,aP = rq.evaluate_expression(expression)
     print(expression,"=",result,pI)
     
