@@ -28,7 +28,7 @@ class Rechenquadrat:
     
     def set_rechenzeichen_zeile(self, zeile, position, zeichen):
         if position >= 1 and position <= 2 and zeile >= 1 and zeile <= 3:
-            self.rechenzeichen[(zeile-1)*3+(position-1)] = zeichen
+            self.rechenzeichen[(zeile-1)*2+(position-1)] = zeichen
     
     def set_rechenzeichen_spalte(self, spalte, position, zeichen):
         if position >= 1 and position <= 2 and spalte >= 1 and spalte <= 3:
