@@ -32,7 +32,7 @@ class Rechenquadrat:
     
     def set_rechenzeichen_spalte(self, spalte, position, zeichen):
         if position >= 1 and position <= 2 and spalte >= 1 and spalte <= 3:
-            self.rechenzeichen[6+(spalte-1)+(position-1)*2] = zeichen
+            self.rechenzeichen[6+(spalte-1)+(position-1)*3] = zeichen
     
     def set_ergebnis(self, position, ergebnis):
         if position >= 0 and position < 6:
@@ -41,6 +41,15 @@ class Rechenquadrat:
     def set_ergebnis_zeile(self, zeile, ergebnis):
         if zeile >= 1 and zeile <= 3:
             self.ergebnisse[zeile-1] = ergebnis
+
+    def set_expression_zeile(self, zeile, expression):
+        #expression valid?
+        self.set_rechenzeichen_zeile(zeile,1,expression[1])
+        self.set_rechenzeichen_zeile(zeile,2,expression[3])
+        self.set_ziffer((zeile-1)*3,int(expression[0]))
+        self.set_ziffer((zeile-1)*3+1,int(expression[2]))
+        self.set_ziffer((zeile-1)*3+2,int(expression[4]))
+        self.set_ergebnis_zeile(zeile,self.evaluate_expression(expression)[0])
 
     def set_ergebnis_spalte(self, spalte, ergebnis):
         if spalte >= 1 and spalte <= 3:
@@ -129,7 +138,7 @@ class Rechenquadrat:
             for i in range(3):
                 ziffer = self.ziffernfelder[i * 3 + (spalte-1)]
                 spaltenstring += str(ziffer) + (self.rechenzeichen[6+i*3+(spalte-1)] if i < 2 else "")
-            #print("SpString",spaltenstring)
+            print("SpString",spaltenstring)
             return self.evaluate_expression(spaltenstring)
         return None
     
