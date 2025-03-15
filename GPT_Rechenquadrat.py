@@ -55,6 +55,15 @@ class Rechenquadrat:
         if spalte >= 1 and spalte <= 3:
             self.ergebnisse[3+spalte-1] = ergebnis
 
+    def set_expression_spalte(self, spalte, expression):
+        #expression valid?
+        self.set_rechenzeichen_spalte(spalte,1,expression[1])
+        self.set_rechenzeichen_spalte(spalte,2,expression[3])
+        self.set_ziffer((spalte-1),int(expression[0]))
+        self.set_ziffer((spalte-1)+3,int(expression[2]))
+        self.set_ziffer((spalte-1)+6,int(expression[4]))
+        self.set_ergebnis_spalte(spalte,self.evaluate_expression(expression)[0])
+
     def get_ziffernfelder(self):
         return self.ziffernfelder
     
@@ -138,7 +147,7 @@ class Rechenquadrat:
             for i in range(3):
                 ziffer = self.ziffernfelder[i * 3 + (spalte-1)]
                 spaltenstring += str(ziffer) + (self.rechenzeichen[6+i*3+(spalte-1)] if i < 2 else "")
-            print("SpString",spaltenstring)
+            #print("SpString",spaltenstring)
             return self.evaluate_expression(spaltenstring)
         return None
     
@@ -431,7 +440,7 @@ class Rechenquadrat:
             output += "\n"
             
         #Einzelne Ziffern der Spaltenergebnisse ausgeben (ergebnisse[3:6])
-        anz_max_Stellen = len(str(max(self.ergebnisse[3:6])))
+        anz_max_Stellen = len(str(max((x for x in self.ergebnisse[3:6] if x is not None), default=1)))
         #print("Stellen:"+str(anz_max_Stellen))
         ergebnisse_als_String = list(map(lambda x: str(x).rjust(anz_max_Stellen),self.ergebnisse[3:6]))
         for i in range(anz_max_Stellen):
