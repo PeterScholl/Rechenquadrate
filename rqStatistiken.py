@@ -160,8 +160,9 @@ def generiereEinfachesRQ():
         #Gültige Rechenzeichen durch ausprobieren ermitteln (alle - for Schleife mit zufälliger Reihenfolge
         for rz in charGeneratorLength("+-x÷",8):
             for pos in range(8):
-                if (pos<4): #Die vier Zeichen in den Zeilen (pos2 enthält ausschlusszeile)
-                    zpos = pos + (2 if pos>=pos2 else 0)
+                if (pos<4): #Die vier Zeichen in den Zeilen (pos2 enthält ausschlusszeile
+                    zpos = pos + (2 if pos>=2*pos2 else 0)
+                    #print(zpos)
                     rqNeu.set_rechenzeichen(zpos,rz[pos])
                 else: #Die vier Zeichen in den Spalten (pos1 enthält ausschlusszeile)
                     spalte = (pos-4)//2
@@ -186,7 +187,7 @@ def generiereEinfachesRQ():
 
     rqNeu.ausgabe()
 
-    return False
+    return rqNeu
 
 def ziffernEinerExpression(expression):
     return list(map(int,[expression[0],expression[2],expression[4]]))

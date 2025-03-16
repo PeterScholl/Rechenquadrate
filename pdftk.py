@@ -1,3 +1,5 @@
+import platform
+import os
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
@@ -64,16 +66,24 @@ def createCenteredTextRect(pdf_canvas, x, y, width, height, text, font_name="Hel
 
 
 #Zeichensatz registrieren
-# Pfad zur TrueType-Schriftart-Datei (.ttf)
-font_path = "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
-# Registrieren Sie die Schriftart
-pdfmetrics.registerFont(TTFont("FreeMono", font_path))
-# weitere Schriftarten
-font_path = "/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf"
-pdfmetrics.registerFont(TTFont("FreeMonoBold", font_path))
+# Betriebssystem erkennen
+if platform.system() == "Windows":
+    font_path_mono = r"C:\Windows\Fonts\Courier New.ttf"  # Alternativ Arial oder Consolas
+    font_path_mono_bold = r"C:\Windows\Fonts\Courier New Bold.ttf"
+else:  # Linux/macOS
+    font_path_mono = "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
+    font_path_mono_bold = "/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf"
+
+# Falls die Schriftart nicht existiert, Abbruch vermeiden
+if os.path.exists(font_path_mono):
+    pdfmetrics.registerFont(TTFont("FreeMono", font_path_mono))
+if os.path.exists(font_path_mono_bold):
+    pdfmetrics.registerFont(TTFont("FreeMonoBold", font_path_mono_bold))
+
 font_path = "./fonts/MonospaceTypewriter.ttf"
 pdfmetrics.registerFont(TTFont("MonospaceTypewriter", font_path))
-font_path = "./fonts/VeraMoBd.ttf"
+#font_path = "./fonts/VeraMoBd.ttf"
+font_path = "C:\Windows\Fonts\consolab.ttf"
 pdfmetrics.registerFont(TTFont("VeraSansMonoBold", font_path))
 font_path = "./fonts/Caladea-Regular.ttf"
 pdfmetrics.registerFont(TTFont("Caladea-Regular", font_path))

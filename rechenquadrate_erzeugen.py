@@ -4,12 +4,13 @@ Rechenquadraten. Die Datei wird in den Ordner Rechenquadrate
 geschrieben und dort in Dateien mit aufsteigender Nummer
 
 Autor: Peter Scholl (scholl@unterrichtsportal.org)
-Datum: 28.10.23
+Datum: 15.03.25
 '''
 
 import os
 import pdftk
 import GPT_Rechenquadrat
+import rqStatistiken as rqs
 
 def rechenquadratInsPDF(pdf_canvas, rechenzeichen, ergebnisse, x, y, width, height):
     """
@@ -150,8 +151,9 @@ if __name__ == "__main__":
     #createCenteredTextRect(c, 100, 500, 300, 100, "Zentrierter Text", background_color=colors.lightgrey, border_width=2)
     rq = GPT_Rechenquadrat.Rechenquadrat()
     for i in range(4):
-        rq.setzeZufaelligeGueltigeRechenzeichen()
-        rq.bestimmeEinenZufaelligenEindeutigenZifferneintrag()
+        #rq.setzeZufaelligeGueltigeRechenzeichen()
+        #rq.bestimmeEinenZufaelligenEindeutigenZifferneintrag()
+        rq = rqs.generiereEinfachesRQ()
         rechenquadratInsPDF(c,rq.get_rechenzeichen(),rq.ergebnisse,45+255*(i%2),30+390*(i//2),230,420)
         pdftk.write_text_in_rectangle(c,infotext,45+255*(i%2),110+390*(i//2),230,font_size=10,font="Caladea-Regular")
         pdftk.write_text_in_rectangle(c,"Das Spiel mit den Zahlen",45+255*(i%2),360+390*(i//2),230,font_size=10,font="Caladea-Regular")
