@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,45 +15,69 @@
             height: 100vh;
             background-color: #f4f4f4;
         }
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(7, 50px);
-            grid-template-rows: repeat(7, 50px);
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(7, 1fr);
             gap: 5px;
+            width: min(90vw, 90vh);
+            height: min(90vw, 90vh);
         }
+
         .cell {
-            width: 50px;
-            height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
+            font-size: clamp(12px, 3vw, 24px);
             border: 1px solid #000;
             background-color: white;
-            position: relative;
         }
+
         .gray-cell {
             background-color: lightgray;
         }
+
         .black-cell {
             background-color: black;
         }
+
         .focused {
             border: 2px solid blue;
         }
+
         .small-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
             width: 100%;
             height: 100%;
-            font-size: 12px;
+            font-size: clamp(8px, 2vw, 16px);
+            /* Anpassung an Bildschirmgröße */
             text-align: center;
+        }
+
+        .small-grid div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*border: 0.5px solid #000; /* Feinere Gitterlinien */
+            min-width: 0;
+            /* Verhindert Überdehnung */
+            min-height: 0;
+        }
+
+        .cell:has(.small-grid) {
+            display: block;
+            padding: 0;
+            /* Verhindert extra Platz */
         }
     </style>
 </head>
+
 <body>
     <div class="grid-container" id="grid"></div>
-    
+
 </body>
+
 </html>
