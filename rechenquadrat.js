@@ -111,11 +111,19 @@ function tests() {
     console.log(bestimmeErgebnisse("123456789","++++xx-+--÷x"));
 }
 
+function toggleMenu() {
+    let menu = document.getElementById("menu");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+
 window.onload = function () {
+    //toggle-Menu im HTML verfügbar machen, obwohl module
+    window.toggleMenu = toggleMenu;
     grid = document.getElementById("grid");
     tests();
     operators="++++xx-+--÷x";
     results=[19,49,6,15,13,32]
     results=bestimmeErgebnisse("487965213",operators);
     updateGrid();
+    
 };

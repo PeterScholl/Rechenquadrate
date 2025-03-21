@@ -9,7 +9,7 @@ export function evaluateExpression(expression) {
     let tokens = [];
     let currentToken = "";
 
-    console.log("Expression to evaluate",expression);
+    //console.log("Expression to evaluate",expression);
 
     // Schritt 1: Token aus dem Ausdruck extrahieren
     for (let char of expression) {
