@@ -36,13 +36,8 @@
         .black-cell {
             background-color: black;
         }
-        .input-cell input {
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            font-size: 20px;
-            border: none;
-            background: transparent;
+        .focused {
+            border: 2px solid blue;
         }
         .small-grid {
             display: grid;
@@ -70,18 +65,34 @@
             ['r', 'b', 'r', 'b', 'r', 'b', 'b']
         ];
         
-        layout.forEach(row => {
-            row.forEach(cell => {
-                let div = document.createElement("div");
-                div.classList.add("cell");
-                
-                if (cell === 'n') {
-                    div.classList.add("input-cell");
-                    let input = document.createElement("input");
-                    input.setAttribute("maxlength", "9");
-                    input.addEventListener("input", function() {
-                        let value = input.value;
-                        if (value.length > 1) {
+        let inputValues = Array(9).fill("");
+        let numberCells = [];
+        let focusedIndex = 0;
+        
+        function updateGrid() {
+            //console.log("Updating grid. Focused index:", focusedIndex);
+            grid.innerHTML = "";
+            numberCells = [];
+            let index = 0;
+            layout.forEach(row => {
+                row.forEach(cell => {
+                    let div = document.createElement("div");
+                    div.classList.add("cell");
+                    
+                    if (cell === 'n') {
+                        let value = inputValues[index] || "";
+                        div.dataset.index = index;
+                        numberCells.push(div);
+                        //div.addEventListener("click", () => setFocus(index));
+                        div.addEventListener("click", ((idx) => () => setFocus(idx))(index));
+
+                        if (index === focusedIndex) {
+                            div.classList.add("focused");
+                        }
+                        
+                        if (value.length === 1) {
+                            div.textContent = value;
+                        } else if (value.length > 1) {
                             let smallGrid = document.createElement("div");
                             smallGrid.classList.add("small-grid");
                             for (let i = 1; i <= 9; i++) {
@@ -89,27 +100,48 @@
                                 smallCell.textContent = value.includes(i.toString()) ? i : "";
                                 smallGrid.appendChild(smallCell);
                             }
-                            div.innerHTML = "";
                             div.appendChild(smallGrid);
-                        } else {
-                            div.innerHTML = "";
-                            div.appendChild(input);
                         }
-                    });
-                    div.appendChild(input);
-                } else if (cell === 'r') {
-                    div.textContent = '?';
-                } else if (cell === 'g') {
-                    div.classList.add("gray-cell");
-                } else if (cell === 'b') {
-                    div.classList.add("black-cell");
-                } else {
-                    div.textContent = cell;
-                }
-                
-                grid.appendChild(div);
+                        index++;
+                    } else if (cell === 'r') {
+                        div.textContent = '?';
+                    } else if (cell === 'g') {
+                        div.classList.add("gray-cell");
+                    } else if (cell === 'b') {
+                        div.classList.add("black-cell");
+                    } else {
+                        div.textContent = cell;
+                    }
+                    grid.appendChild(div);
+                });
             });
+        }
+        
+        function setFocus(index) {
+            //console.log("Setting focus to:", index);
+            focusedIndex = index;
+            updateGrid();
+        }
+        
+        document.addEventListener("keydown", (event) => {
+            if (focusedIndex === null) return;
+            
+            console.log("Key pressed:", event.key);
+            let currentValues = inputValues[focusedIndex] || "";
+            
+            if (event.key >= '1' && event.key <= '9') {
+                if (currentValues.includes(event.key)) {
+                    inputValues[focusedIndex] = currentValues.replace(event.key, "");
+                } else {
+                    inputValues[focusedIndex] += event.key;
+                }
+            } else if (event.key === "Backspace") {
+                inputValues[focusedIndex] = "";
+            }
+            updateGrid();
         });
+        
+        updateGrid();
     </script>
 </body>
 </html>
