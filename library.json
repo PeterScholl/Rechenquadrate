@@ -1,0 +1,9 @@
+{
+    "Buch 1 - einfache Rechenquadrate": [
+        { "numbers": "487965213", "operators": "++++xx-+--÷x" },
+        { "numbers": "123456789", "operators": "++--xx++--÷x" }
+    ],
+    "Buch 2 - schwierige Rechenquadrate": [
+        { "numbers": "987654321", "operators": "x÷+-÷x++--x+" }
+    ]
+}

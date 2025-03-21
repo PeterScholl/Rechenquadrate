@@ -1,5 +1,6 @@
 import { evaluateExpression, bestimmeErgebnisse } from './hilfsmethoden.js';
 
+let puzzles = {};
 let grid; // = document.getElementById("grid");
 let layout = [
     ['n', 'o', 'n', 'o', 'n', '=', 'r'],
@@ -116,9 +117,99 @@ function toggleMenu() {
     menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
 }
 
+function initMenu() {
+    const menu = document.getElementById("menu");
+    const menuItems = [
+        { text: "Anleitung", action: tests },
+        { text: "Feld aufdecken", action: tests },
+        { text: "Prüfen", action: tests },
+        { text: "Einstellungen", action: tests },
+        { text: "Puzzle wählen", action: openPuzzleModal}
+    ];
+
+    // Bestehende Menüeinträge leeren und neu befüllen
+    menu.innerHTML = "";
+    menuItems.forEach(item => {
+        let menuItem = document.createElement("div");
+        menuItem.classList.add("menu-item");
+        menuItem.textContent = item.text;
+        menuItem.onclick = () => {
+            item.action();  // Aktion ausführen
+            toggleMenu();   // Menü schließen
+        };
+        menu.appendChild(menuItem);
+    });
+}
+
+// Funktion zum Laden der Rätsel aus der JSON-Datei
+async function loadPuzzles() {
+    try {
+        let response = await fetch("library.json");
+        puzzles = await response.json();
+        //console.log("Geladene Puzzles:", puzzles);  // Debugging
+    } catch (error) {
+        console.error("Fehler beim Laden der Rätsel:", error);
+    }
+}
+
+// Funktion zum Öffnen des Modals
+function openPuzzleModal() {
+    document.getElementById('choose-puzzle-modal').style.display = 'block';
+    loadBookOptions();
+}
+
+// Funktion zum Schließen des Modals
+function closePuzzleModal() {
+    document.getElementById('choose-puzzle-modal').style.display = 'none';
+}
+
+function loadBookOptions() {
+    let bookSelect = document.getElementById("book-select");
+    bookSelect.innerHTML = "";  
+    
+    for (let book in puzzles) {
+        let option = document.createElement("option");
+        option.value = book;
+        option.textContent = book;
+        bookSelect.appendChild(option);
+    }
+    updatePuzzleList();  
+}
+
+function updatePuzzleList() {
+    let book = document.getElementById("book-select").value;
+    let puzzleSelect = document.getElementById("puzzle-select");
+    puzzleSelect.innerHTML = "";  
+
+    //console.log("Book",book);
+    puzzles[book].forEach((_, index) => {
+        let option = document.createElement("option");
+        option.value = index;
+        option.textContent = `Rätsel ${index + 1}`;
+        puzzleSelect.appendChild(option);
+    });
+}
+
+function selectPuzzle() {
+    let book = document.getElementById("book-select").value;
+    let puzzleIndex = document.getElementById("puzzle-select").value;
+    let puzzle = puzzles[book][puzzleIndex];
+
+    //console.log("Puzzle",puzzle,"Ziffern", puzzle.numbers);
+    operators = puzzle.operators;
+    results = bestimmeErgebnisse(puzzle.numbers,operators);
+    closePuzzleModal();
+    updateGrid();
+}
+
+loadPuzzles();
 window.onload = function () {
     //toggle-Menu im HTML verfügbar machen, obwohl module
     window.toggleMenu = toggleMenu;
+    window.closePuzzleModal = closePuzzleModal;
+    window.updatePuzzleList = updatePuzzleList;
+    window.selectPuzzle = selectPuzzle;
+    initMenu();
     grid = document.getElementById("grid");
     tests();
     operators="++++xx-+--÷x";

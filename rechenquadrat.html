@@ -84,7 +84,8 @@
             border-radius: 5px;
             cursor: pointer;
         }
-/*
+
+        /*
         .menu-overlay {
             display: none;
             position: fixed;
@@ -142,6 +143,39 @@
         .menu-item:hover {
             background-color: #f0f0f0;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 50%;
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .book-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .riddle-button {
+            display: block;
+            margin: 5px 0;
+        }
     </style>
 </head>
 
@@ -155,6 +189,21 @@
     </div>
 
     <div class="grid-container" id="grid"></div>
+
+    <div id="choose-puzzle-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePuzzleModal()">&times;</span>
+                <h2>Rätsel wählen</h2>
+                <label for="book-select">Buch wählen:</label>
+                <select id="book-select" onchange="updatePuzzleList()"></select>
+                
+                <label for="puzzle-select">Rätsel wählen:</label>
+                <select id="puzzle-select"></select>
+                
+                <button onclick="selectPuzzle()">Wählen</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
