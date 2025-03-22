@@ -254,6 +254,12 @@ if __name__ == "__main__":
     for i in range(8):
         print(next(pos))
 
-    generiereEinfachesRQ()
+    rq3 = generiereEinfachesRQ()
+
+    print("Valid:",rq3.pruefeQuadrat())
+
+    #rq3.ausgabe()
+
+    #print(rq3.allValidCiffers())
 
     generateBook(10)

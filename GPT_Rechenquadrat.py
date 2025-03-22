@@ -49,7 +49,7 @@ class Rechenquadrat:
             self.rechenzeichen[0], self.rechenzeichen[1],  # Erste Zeile 
             self.rechenzeichen[6], self.rechenzeichen[7], self.rechenzeichen[8], # Rechenzeichen zw. den Zeilen 
             self.rechenzeichen[2], self.rechenzeichen[3], # Zweite Zeile kommt aus zweiter Spalte
-            self.rechenzeichen[1], self.rechenzeichen[3], self.rechenzeichen[5],   
+            self.rechenzeichen[9], self.rechenzeichen[10], self.rechenzeichen[11],   
             self.rechenzeichen[4], self.rechenzeichen[5] # Dritte Zeile kommt aus dritter Spalte
         ]
         return {
@@ -197,17 +197,29 @@ class Rechenquadrat:
         return None
     
     def pruefeZeile(self,zeile):
+        """
+        Prüft die Zeile auf Gültigkeit - eine Lösung muss allerdings eingetragen sein
+        """
         if zeile>=1 and zeile <=3:
             res,valid,alwaysInt,alwaysPos = self.evaluate_zeile(zeile)
             return valid and alwaysInt and alwaysPos and res == self.ergebnisse[zeile-1]
         return False
-    
+
     def pruefeSpalte(self,spalte):
         if spalte>=1 and spalte <=3:
             res,valid,alwaysInt,alwaysPos = self.evaluate_spalte(spalte)
             return valid and alwaysInt and alwaysPos and res == self.ergebnisse[3+spalte-1]
         return False
 
+    def pruefeQuadrat(self):
+        """
+        Prüft das ganze Quadrat auf Gültigkeit
+        """
+        for i in range(1,4):
+            if (not self.pruefeSpalte(i)): return False
+            if (not self.pruefeZeile(i)): return False
+        return True
+     
     def berechneErgebnisse(self):
         """
         Berechnet die Ergebnisse aller Zeilen und Spalten aus den gegebenen Ziffern
