@@ -39,6 +39,7 @@ function updateGrid() {
                 numberCells.push(div);
                 //div.addEventListener("click", () => setFocus(index));
                 div.addEventListener("click", ((idx) => () => setFocus(idx))(nr_idx));
+                div.addEventListener("touchstart", ((idx) => (event) => handleTouch(idx, event))(nr_idx));
 
                 if (nr_idx === focusedIndex) {
                     div.classList.add("focused");
@@ -81,6 +82,7 @@ function setFocus(index) {
     focusedIndex = index;
     updateGrid();
 }
+
 
 document.addEventListener("keydown", (event) => {
     if (focusedIndex === null) return;
@@ -172,6 +174,12 @@ function showMessageModal(message, color = "white", duration = 10000) {
     let overlay = document.getElementById("messageModal-overlay");
 
     if (!modal) return; // Falls das Modal nicht existiert, nichts tun
+    let newModal = modal.cloneNode(true);
+    modal.parentNode.replaceChild(newModal, modal);
+    modal = newModal; // Neue Referenz setzen
+    let newOverlay = overlay.cloneNode(true);
+    overlay.parentNode.replaceChild(newOverlay, overlay);
+    overlay = newOverlay; // Neue Referenz setzen
 
     modal.textContent = message;
     modal.style.background = color;
@@ -200,6 +208,77 @@ function closeMessageModal() {
             overlay.style.display = "none";
         }, 500);
     }
+}
+
+function handleTouch(index, event) {
+    console.log("Touch erkannt");
+    event.preventDefault(); // Verhindert, dass der Touch-Event weitergereicht wird
+
+    let modal = document.getElementById("messageModal");
+    let newModal = modal.cloneNode(true);
+    modal.parentNode.replaceChild(newModal, modal);
+    modal = newModal; // Neue Referenz setzen
+    let overlay = document.getElementById("messageModal-overlay");
+    let newOverlay = overlay.cloneNode(true);
+    overlay.parentNode.replaceChild(newOverlay, overlay);
+    overlay = newOverlay; // Neue Referenz setzen
+    
+    modal.innerHTML = ""; 
+    modal.removeAttribute("style"); // Setzt alle inline-Stile zurück
+    modal.style.display = "block";
+    modal.style.opacity = "1";
+    overlay.removeAttribute("style"); // Setzt alle inline-Stile zurück
+    overlay.style.display = "block";
+    
+    let grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gap = "10px";
+    grid.style.padding = "10px";
+    
+    let selectedValues = new Set(inputValues[index]?.split("") || []);
+    
+    for (let i = 1; i <= 9; i++) {
+        let btn = document.createElement("div");
+        btn.textContent = i;
+        btn.style.padding = "15px";
+        btn.style.textAlign = "center";
+        btn.style.border = "1px solid black";
+        btn.style.cursor = "pointer";
+        btn.style.background = selectedValues.has(i.toString()) ? "yellow" : "white";
+        
+        btn.addEventListener("click", () => {
+            if (selectedValues.has(i.toString())) {
+                selectedValues.delete(i.toString());
+                btn.style.background = "white";
+            } else {
+                selectedValues.add(i.toString());
+                btn.style.background = "yellow";
+            }
+        });
+        grid.appendChild(btn);
+    }
+    
+    let closeButton = document.createElement("button");
+    closeButton.textContent = "OK";
+    closeButton.style.marginTop = "10px";
+    closeButton.addEventListener("click", (event) => closeHandleTouchModal(index, selectedValues,event));
+    
+    modal.appendChild(grid);
+    modal.appendChild(closeButton);
+    
+    overlay.addEventListener("click", (event) => closeHandleTouchModal(index, selectedValues,event));
+}
+
+function closeHandleTouchModal(index, selectedValues,event) {
+    event.preventDefault();
+    console.log(event,index,selectedValues);
+    event.stopPropagation();  // Stoppt das Event-Bubbling
+    
+    inputValues[index] = Array.from(selectedValues).sort().join("");
+    closeMessageModal();
+    focusedIndex = index;
+    updateGrid();
 }
 
 
