@@ -176,6 +176,44 @@
             display: block;
             margin: 5px 0;
         }
+
+        #messageModal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            pointer-events: all;
+            /* Blockiert Interaktionen mit der Webseite */
+        }
+
+        #messageModal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            border: 2px solid black;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: all;
+            /* Interaktion nur mit dem Modal erlauben */
+        }
+
+        .messageModal {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -191,19 +229,21 @@
     <div class="grid-container" id="grid"></div>
 
     <div id="choose-puzzle-modal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closePuzzleModal()">&times;</span>
-                <h2>Rätsel wählen</h2>
-                <label for="book-select">Buch wählen:</label>
-                <select id="book-select" onchange="updatePuzzleList()"></select>
-                
-                <label for="puzzle-select">Rätsel wählen:</label>
-                <select id="puzzle-select"></select>
-                
-                <button onclick="selectPuzzle()">Wählen</button>
-            </div>
+        <div class="modal-content">
+            <span class="close" onclick="closePuzzleModal()">&times;</span>
+            <h2>Rätsel wählen</h2>
+            <label for="book-select">Buch wählen:</label>
+            <select id="book-select" onchange="updatePuzzleList()"></select>
+
+            <label for="puzzle-select">Rätsel wählen:</label>
+            <select id="puzzle-select"></select>
+
+            <button onclick="selectPuzzle()">Wählen</button>
         </div>
     </div>
+    </div>
+    <div id="messageModal-overlay"></div>
+    <div id="messageModal"></div>
 
 </body>
 

@@ -1,7 +1,46 @@
 {
     "Buch 1 - einfache Rechenquadrate": [
         { "numbers": "487965213", "operators": "++++xx-+--÷x" },
-        { "numbers": "123456789", "operators": "++--xx++--÷x" }
+        {
+            "numbers": "725438691",
+            "operators": "x--xx+x-x÷x÷"
+        },
+        {
+            "numbers": "346275891",
+            "operators": "xxx+xx-x-+x+"
+        },
+        {
+            "numbers": "935762418",
+            "operators": "++x+x+x+xx÷x"
+        },
+        {
+            "numbers": "864921357",
+            "operators": "xxxx--÷x÷x+x"
+        },
+        {
+            "numbers": "941873256",
+            "operators": "x-+++x---xxx"
+        },
+        {
+            "numbers": "394782615",
+            "operators": "+÷++-x+÷+x÷x"
+        },
+        {
+            "numbers": "894261753",
+            "operators": "x---÷x----x-"
+        },
+        {
+            "numbers": "624835971",
+            "operators": "x-++x-÷-÷÷+÷"
+        },
+        {
+            "numbers": "893175624",
+            "operators": "x+xx+x-+-x÷x"
+        },
+        {
+            "numbers": "879541632",
+            "operators": "+xx+÷++x+---"
+        }
     ],
     "Buch 2 - schwierige Rechenquadrate": [
         { "numbers": "987654321", "operators": "x÷+-÷x++--x+" }

@@ -85,9 +85,9 @@ export function bestimmeErgebnisse(ziffern, rechenzeichen) {
     let erg3Zeile = berechne(zahlen[6], op[10], zahlen[7], op[11], zahlen[8]);
 
     // Spalten berechnen
-    let erg1Spalte = berechne(zahlen[0], op[2], zahlen[3], op[5], zahlen[6]);
-    let erg2Spalte = berechne(zahlen[1], op[3], zahlen[4], op[6], zahlen[7]);
-    let erg3Spalte = berechne(zahlen[2], op[5], zahlen[5], op[7], zahlen[8]);
+    let erg1Spalte = berechne(zahlen[0], op[2], zahlen[3], op[7], zahlen[6]);
+    let erg2Spalte = berechne(zahlen[1], op[3], zahlen[4], op[8], zahlen[7]);
+    let erg3Spalte = berechne(zahlen[2], op[4], zahlen[5], op[9], zahlen[8]);
 
     return [erg1Zeile, erg2Zeile, erg3Zeile, erg1Spalte, erg2Spalte, erg3Spalte];
 }

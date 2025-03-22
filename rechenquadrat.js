@@ -11,8 +11,11 @@ let layout = [
     ['=', 'g', '=', 'g', '=', 'g', 'b'],
     ['r', 'b', 'r', 'b', 'r', 'b', 'b']
 ];
-let results = [20, 40, 76, 178, 2, 1];
-let operators = "/+-*+-++/+++";
+let operators = "++++xx-+--÷x";
+let solutions = "487965213";
+let results = [19, 49, 6, 15, 13, 32];
+let checked = false;
+let running = true;
 
 let inputValues = Array(9).fill("");
 let numberCells = [];
@@ -70,6 +73,7 @@ function updateGrid() {
             grid.appendChild(div);
         });
     });
+    checkSolution();
 }
 
 function setFocus(index) {
@@ -93,14 +97,14 @@ document.addEventListener("keydown", (event) => {
         inputValues[focusedIndex] = "";
     } else if (event.key === "ArrowUp") {
         event.preventDefault(); // Verhindert das Scrollen des Fensters
-        if (focusedIndex>2) setFocus(focusedIndex-3);
+        if (focusedIndex > 2) setFocus(focusedIndex - 3);
     } else if (event.key === "ArrowDown") {
         event.preventDefault(); // Verhindert das Scrollen des Fensters
-        if (focusedIndex<6) setFocus(focusedIndex+3);
+        if (focusedIndex < 6) setFocus(focusedIndex + 3);
     } else if (event.key === "ArrowRight") {
-        if (focusedIndex%3!=2) setFocus(focusedIndex+1);
+        if (focusedIndex % 3 != 2) setFocus(focusedIndex + 1);
     } else if (event.key === "ArrowLeft") {
-        if (focusedIndex%3!=0) setFocus(focusedIndex-1);
+        if (focusedIndex % 3 != 0) setFocus(focusedIndex - 1);
     } else {
         console.log("Key pressed:", event.key);
     }
@@ -109,7 +113,7 @@ document.addEventListener("keydown", (event) => {
 
 function tests() {
     console.log(evaluateExpression("10+5*2"));
-    console.log(bestimmeErgebnisse("123456789","++++xx-+--÷x"));
+    console.log(bestimmeErgebnisse("123456789", "++++xx-+--÷x"));
 }
 
 function toggleMenu() {
@@ -121,10 +125,10 @@ function initMenu() {
     const menu = document.getElementById("menu");
     const menuItems = [
         { text: "Anleitung", action: tests },
-        { text: "Feld aufdecken", action: tests },
+        { text: "Feld aufdecken", action: uncoverRandomField },
         { text: "Prüfen", action: tests },
         { text: "Einstellungen", action: tests },
-        { text: "Puzzle wählen", action: openPuzzleModal}
+        { text: "Puzzle wählen", action: openPuzzleModal }
     ];
 
     // Bestehende Menüeinträge leeren und neu befüllen
@@ -163,23 +167,59 @@ function closePuzzleModal() {
     document.getElementById('choose-puzzle-modal').style.display = 'none';
 }
 
+function showMessageModal(message, color = "white", duration = 10000) {
+    let modal = document.getElementById("messageModal");
+    let overlay = document.getElementById("messageModal-overlay");
+
+    if (!modal) return; // Falls das Modal nicht existiert, nichts tun
+
+    modal.textContent = message;
+    modal.style.background = color;
+    modal.style.display = "block";
+    modal.style.display = "block";
+    overlay.style.display = "block";
+    setTimeout(() => {
+        modal.style.opacity = "1";
+    }, 10);
+
+    // Schließen bei Klick
+    modal.onclick = closeMessageModal;
+    overlay.onclick = closeMessageModal;
+
+    setTimeout(closeMessageModal, duration);
+}
+
+function closeMessageModal() {
+    let modal = document.getElementById("messageModal");
+    let overlay = document.getElementById("messageModal-overlay");
+
+    if (modal) {
+        modal.style.opacity = "0";
+        setTimeout(() => {
+            modal.style.display = "none";
+            overlay.style.display = "none";
+        }, 500);
+    }
+}
+
+
 function loadBookOptions() {
     let bookSelect = document.getElementById("book-select");
-    bookSelect.innerHTML = "";  
-    
+    bookSelect.innerHTML = "";
+
     for (let book in puzzles) {
         let option = document.createElement("option");
         option.value = book;
         option.textContent = book;
         bookSelect.appendChild(option);
     }
-    updatePuzzleList();  
+    updatePuzzleList();
 }
 
 function updatePuzzleList() {
     let book = document.getElementById("book-select").value;
     let puzzleSelect = document.getElementById("puzzle-select");
-    puzzleSelect.innerHTML = "";  
+    puzzleSelect.innerHTML = "";
 
     //console.log("Book",book);
     puzzles[book].forEach((_, index) => {
@@ -190,14 +230,76 @@ function updatePuzzleList() {
     });
 }
 
+function uncoverRandomField() {
+    let candidates = [];
+
+    inputValues.forEach((value, idx) => {
+        if (value.length !== 1) {
+            candidates.push(idx);
+        }
+    });
+
+    if (candidates.length > 0) {
+        let randomIdx = candidates[Math.floor(Math.random() * candidates.length)];
+        inputValues[randomIdx] = solutions[randomIdx]; // Richtige Ziffer eintragen
+        updateGrid(); // Grid aktualisieren
+
+
+        // Zelle hervorheben
+        let cell = document.querySelector(`.cell[data-index='${randomIdx}']`);
+        if (cell) {
+            cell.style.transition = "background-color 2s ease-in-out";
+            cell.style.backgroundColor = "yellow";
+            setTimeout(() => {
+                cell.style.backgroundColor = ""; // Langsames Ausfaden
+            }, 100);
+        }
+    }
+}
+
+function checkSolution() {
+    if (!inputValues.every(val => val.length === 1)) {
+        checked = false;
+        return; // Nur prüfen, wenn alle Felder eine Ziffer enthalten
+    }
+    if (checked) return; //Wurde schon geprüft
+    checked = true;
+
+    let incorrectCount = 0;
+    let allCorrect = true;
+
+    for (let idx = 0; idx < 9; idx++) {
+        let userInput = inputValues[idx] || "";
+        let correctValue = solutions[idx];
+
+        if (userInput !== correctValue) {
+            incorrectCount++;
+            allCorrect = false;
+        }
+    }
+
+    if (allCorrect) {
+        showMessageModal("Glückwunsch! Alle Lösungen sind richtig.", "green");
+    } else {
+        showMessageModal(`Es gibt ${incorrectCount} falsche Eingabe(n).`, "red");
+    }
+
+    if (allCorrect) {
+        running = false;
+    }
+}
+
+
 function selectPuzzle() {
     let book = document.getElementById("book-select").value;
     let puzzleIndex = document.getElementById("puzzle-select").value;
     let puzzle = puzzles[book][puzzleIndex];
 
-    //console.log("Puzzle",puzzle,"Ziffern", puzzle.numbers);
+    console.log("Puzzle",puzzle,"Ziffern", puzzle.numbers);
+    solutions = puzzle.numbers;
     operators = puzzle.operators;
-    results = bestimmeErgebnisse(puzzle.numbers,operators);
+    results = bestimmeErgebnisse(solutions, operators);
+    inputValues = Array(9).fill("");
     closePuzzleModal();
     updateGrid();
 }
@@ -212,9 +314,10 @@ window.onload = function () {
     initMenu();
     grid = document.getElementById("grid");
     tests();
-    operators="++++xx-+--÷x";
-    results=[19,49,6,15,13,32]
-    results=bestimmeErgebnisse("487965213",operators);
+    operators = "++++xx-+--÷x";
+    solutions = "487965213";
+    results = [19, 49, 6, 15, 13, 32];
+    results = bestimmeErgebnisse(solutions, operators);
     updateGrid();
-    
 };
+

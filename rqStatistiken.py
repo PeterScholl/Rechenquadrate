@@ -1,5 +1,6 @@
 import GPT_Rechenquadrat as rq
 import random
+import json
 from types import MappingProxyType
 
 RECHENZEICHEN = "+-x÷"
@@ -123,8 +124,6 @@ def generiereEinfachesRQ():
             if (valid):
                 break
 
-        #Zufällig spiegeln (Zeile->Spalte)               
-
     else:
         print("Eine gemeinsame Ziffer")
         #Postionen der gemeinsamen Ziffer finden
@@ -183,7 +182,11 @@ def generiereEinfachesRQ():
             if (valid):
                 break
 
-        #Zufällig spiegeln
+    #Zufällig spiegeln
+    if (random.random() < 0.5):
+        print("gespiegelt")
+        rqNeu.spiegeln()
+    
 
     rqNeu.ausgabe()
 
@@ -217,6 +220,16 @@ def charGeneratorLength(s, length):
                 generators[i] = charGenerator(s)  # Neuen Generator starten
                 positions[i] = next(generators[i])  # Neu befüllen
 
+def generateBook(n, dateiname="rechenquadrate.json", name="Buch-Exporte"):
+    data = {name: []}
+
+    for _ in range(n):
+        rq = generiereEinfachesRQ()
+        data[name].append(rq.als_dict())
+
+    with open(dateiname, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
 if __name__ == "__main__":
     for char in "+-x÷":
         print("÷",char,bestimmeAlleErgebnisse('÷',char))
@@ -242,3 +255,5 @@ if __name__ == "__main__":
         print(next(pos))
 
     generiereEinfachesRQ()
+
+    generateBook(10)

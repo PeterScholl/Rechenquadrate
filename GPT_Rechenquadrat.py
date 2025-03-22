@@ -13,6 +13,51 @@ class Rechenquadrat:
         # 6 Ergebnisse 
         self.ergebnisse = [None] * 6
     
+    def spiegeln(self):
+        # Ziffernfelder entlang der Hauptdiagonalen spiegeln
+        self.ziffernfelder = [
+            self.ziffernfelder[0], self.ziffernfelder[3], self.ziffernfelder[6],
+            self.ziffernfelder[1], self.ziffernfelder[4], self.ziffernfelder[7],
+            self.ziffernfelder[2], self.ziffernfelder[5], self.ziffernfelder[8]
+        ]
+
+        # Rechenzeichen Zeilen <-> Spalten vertauschen
+        self.rechenzeichen = [
+            self.rechenzeichen[6], self.rechenzeichen[9],  # Erste Zeile kommt aus erster Spalte
+            self.rechenzeichen[7], self.rechenzeichen[10], # Zweite Zeile kommt aus zweiter Spalte
+            self.rechenzeichen[8], self.rechenzeichen[11], # Dritte Zeile kommt aus dritter Spalte
+            self.rechenzeichen[0], self.rechenzeichen[2], self.rechenzeichen[4], 
+            self.rechenzeichen[1], self.rechenzeichen[3], self.rechenzeichen[5]   
+        ]
+
+        # Ergebnisse von Zeilen und Spalten vertauschen
+        self.ergebnisse = [
+            self.ergebnisse[3],  # Erste Zeile wird erste Spalte
+            self.ergebnisse[4],  # Zweite Zeile bleibt
+            self.ergebnisse[5],  # Dritte Zeile wird dritte Spalte
+            self.ergebnisse[0],  # Erste Spalte wird erste Zeile
+            self.ergebnisse[1],  # Zweite Spalte bleibt
+            self.ergebnisse[2]   # Dritte Spalte wird dritte Zeile
+        ]
+
+    def als_dict(self):
+        """ 
+        Diese Methode sortiert die Rechenzeichen so um, dass es für die Javascript-Anwendung
+        passt und gibt sie als Dict für die Books zurück
+        """
+        rechenzeichen_s = [
+            self.rechenzeichen[0], self.rechenzeichen[1],  # Erste Zeile 
+            self.rechenzeichen[6], self.rechenzeichen[7], self.rechenzeichen[8], # Rechenzeichen zw. den Zeilen 
+            self.rechenzeichen[2], self.rechenzeichen[3], # Zweite Zeile kommt aus zweiter Spalte
+            self.rechenzeichen[1], self.rechenzeichen[3], self.rechenzeichen[5],   
+            self.rechenzeichen[4], self.rechenzeichen[5] # Dritte Zeile kommt aus dritter Spalte
+        ]
+        return {
+            "numbers": "".join(map(str, self.ziffernfelder)),
+            "operators": "".join(rechenzeichen_s)
+        }
+
+
     def set_ziffer(self, position, wert):
         if position >= 0 and position < 9:
             self.ziffernfelder[position] = wert
