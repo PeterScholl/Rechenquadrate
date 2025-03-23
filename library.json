@@ -1,6 +1,9 @@
 {
-    "Buch 1 - einfache Rechenquadrate": [
-        { "numbers": "487965213", "operators": "++++xx-+--÷x" },
+    "Buch 1 - einfache": [
+        {
+            "numbers": "487965213",
+            "operators": "++++xx-+--÷x"
+        },
         {
             "numbers": "795248631",
             "operators": "x-x+x++x+÷-x"
@@ -40,9 +43,212 @@
         {
             "numbers": "719528364",
             "operators": "++x+++x-xxxx"
+        },
+        {
+            "numbers": "841769253",
+            "operators": "x÷x+x-x-++xx"
+        },
+        {
+            "numbers": "632851794",
+            "operators": "-xxx÷x÷+x+x-"
+        },
+        {
+            "numbers": "638719452",
+            "operators": "-x+xx÷+-x+x+"
+        },
+        {
+            "numbers": "917523846",
+            "operators": "-x++xx-x+-÷x"
+        },
+        {
+            "numbers": "532674891",
+            "operators": "+÷xx+x-x+x+÷"
+        },
+        {
+            "numbers": "328795461",
+            "operators": "xxxxxx-++÷+÷"
+        },
+        {
+            "numbers": "589217643",
+            "operators": "+--÷x÷x+x++x"
+        },
+        {
+            "numbers": "762593418",
+            "operators": "-+-xxx++÷+÷x"
+        },
+        {
+            "numbers": "714928635",
+            "operators": "-+xx+-x+xx++"
+        },
+        {
+            "numbers": "692513874",
+            "operators": "+--÷x+x+x-x+"
+        },
+        {
+            "numbers": "367584912",
+            "operators": "xxxx-x-+÷---"
+        },
+        {
+            "numbers": "183795264",
+            "operators": "+xxxxx+---x+"
+        },
+        {
+            "numbers": "468793512",
+            "operators": "x÷+x-x+x÷+xx"
+        },
+        {
+            "numbers": "724153986",
+            "operators": "+-÷+-+xxxxx+"
+        },
+        {
+            "numbers": "854621379",
+            "operators": "x-x-x÷+-+xx-"
+        },
+        {
+            "numbers": "394861527",
+            "operators": "xxxx-x÷++x++"
+        },
+        {
+            "numbers": "564132978",
+            "operators": "+-÷-x+÷xx÷+x"
+        },
+        {
+            "numbers": "897546123",
+            "operators": "x+xx+x+÷x++x"
+        },
+        {
+            "numbers": "473821965",
+            "operators": "xxxxx÷÷+-+x-"
+        },
+        {
+            "numbers": "285791346",
+            "operators": "+÷+x÷+÷++xxx"
+        },
+        {
+            "numbers": "481392765",
+            "operators": "x÷xx++--+x+x"
+        },
+        {
+            "numbers": "591723486",
+            "operators": "x÷x-xx--x++x"
+        },
+        {
+            "numbers": "286394571",
+            "operators": "++x+-+++x-x÷"
+        },
+        {
+            "numbers": "984623715",
+            "operators": "x--÷+-x+÷+-+"
+        },
+        {
+            "numbers": "691784253",
+            "operators": "x÷+++++xx-+-"
+        },
+        {
+            "numbers": "615279348",
+            "operators": "÷x-++++x-xx+"
+        },
+        {
+            "numbers": "231975468",
+            "operators": "+xx++x+-++++"
+        },
+        {
+            "numbers": "814672593",
+            "operators": "÷x-x-x-x+xx÷"
+        },
+        {
+            "numbers": "819657342",
+            "operators": "÷xxx--x-++x+"
+        },
+        {
+            "numbers": "845126793",
+            "operators": "x+-÷+++xxxx+"
+        },
+        {
+            "numbers": "421583796",
+            "operators": "+x+++++x-xx+"
+        },
+        {
+            "numbers": "697485231",
+            "operators": "+xxxx++x-÷++"
+        },
+        {
+            "numbers": "847539621",
+            "operators": "xx-xx-+x+÷÷x"
+        },
+        {
+            "numbers": "782493165",
+            "operators": "x-xx++xx-÷+-"
+        },
+        {
+            "numbers": "962135847",
+            "operators": "x+-xxxx+++÷x"
+        },
+        {
+            "numbers": "396784512",
+            "operators": "+x++xx+÷-+xx"
+        },
+        {
+            "numbers": "873619254",
+            "operators": "+x+÷x÷xxxxx+"
+        },
+        {
+            "numbers": "697328415",
+            "operators": "+xx-+++x--+x"
+        },
+        {
+            "numbers": "271894653",
+            "operators": "x÷xx++xx+++x"
+        },
+        {
+            "numbers": "948716523",
+            "operators": "++x÷x÷x---+-"
+        },
+        {
+            "numbers": "615734892",
+            "operators": "÷xxxxxx-x++x"
+        },
+        {
+            "numbers": "972845361",
+            "operators": "x-x+xx++-++x"
+        },
+        {
+            "numbers": "362497581",
+            "operators": "x÷++x+--x÷+-"
+        },
+        {
+            "numbers": "593418726",
+            "operators": "x++÷x÷x+x+-+"
+        },
+        {
+            "numbers": "674891235",
+            "operators": "+x+x-+÷÷+x+x"
+        },
+        {
+            "numbers": "791456283",
+            "operators": "+÷++xxxxx÷+x"
+        },
+        {
+            "numbers": "657819342",
+            "operators": "x-x-x÷x-+x+x"
+        },
+        {
+            "numbers": "639248175",
+            "operators": "-+÷+xx÷x÷+++"
+        },
+        {
+            "numbers": "753946281",
+            "operators": "x-xx+-x-++x÷"
+        },
+        {
+            "numbers": "786953124",
+            "operators": "xxxx-x+÷÷+xx"
         }
     ],
-    "Buch 2 - schwierige Rechenquadrate": [
-        { "numbers": "987654321", "operators": "x÷+-÷x++--x+" }
+    "Buch 2 - schwierige": [
+        {
+            "numbers": "987654321",
+            "operators": "x÷+-÷x++--x+"
+        }
     ]
 }

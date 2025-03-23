@@ -2,6 +2,7 @@ import { evaluateExpression, bestimmeErgebnisse } from './hilfsmethoden.js';
 import { closePuzzleModal, handleTouchModal, openPuzzleModal, showMessageModal, showAnleitung } from './modals.js';
 
 let puzzles = {};
+let selectedPuzzle = null;
 let grid; // = document.getElementById("grid");
 let layout = [
     ['n', 'o', 'n', 'o', 'n', '=', 'r'],
@@ -120,6 +121,8 @@ document.addEventListener("keydown", (event) => {
         uncoverRandomField();
     } else if (event.key === "h") {
         showAnleitung();
+    } else if (event.key === "n") {
+        switchToNextPuzzle();
     } else {
         console.log("Key pressed:", event.key);
     }
@@ -144,7 +147,8 @@ function initMenu() {
         //{ text: "Prüfen", action: tests },
         //{ text: "Einstellungen", action: tests },
         { text: "Puzzle leeren (c)", action: clearFields},
-        { text: "Puzzle wählen (o)", action: openPuzzleModal }
+        { text: "Puzzle wählen (o)", action: openPuzzleModal },
+        { text: "Nächstes Puzzle (n)", action: switchToNextPuzzle }
     ];
 
     // Bestehende Menüeinträge leeren und neu befüllen
@@ -191,10 +195,10 @@ function updatePuzzleList() {
     puzzleSelect.innerHTML = "";
 
     //console.log("Book",book);
-    puzzles[book].forEach((_, index) => {
+    puzzles[book].forEach((puzzle, index) => {
         let option = document.createElement("option");
         option.value = index;
-        option.textContent = `Rätsel ${index + 1}`;
+        option.textContent = `Puzzle ${index + 1}` + (puzzle.solved ? " ✅" : "");
         puzzleSelect.appendChild(option);
     });
 }
@@ -254,6 +258,7 @@ function checkSolution() {
 
     if (allCorrect) {
         showMessageModal("Glückwunsch! Alle Lösungen sind richtig.", "green");
+        markPuzzleAsSolved();
     } else {
         showMessageModal(`Es gibt ${incorrectCount} falsche Eingabe(n).`, "red");
     }
@@ -267,6 +272,7 @@ function checkSolution() {
 function selectPuzzle() {
     let book = document.getElementById("book-select").value;
     let puzzleIndex = document.getElementById("puzzle-select").value;
+    selectedPuzzle = { book, index: parseInt(puzzleIndex) };  // Merkt sich das ausgewählte Puzzle
     let puzzle = puzzles[book][puzzleIndex];
 
     console.log("Puzzle",puzzle,"Ziffern", puzzle.numbers);
@@ -277,6 +283,38 @@ function selectPuzzle() {
     closePuzzleModal();
     updateGrid();
 }
+
+function switchToNextPuzzle() {
+    if (!selectedPuzzle) return;
+
+    let book = selectedPuzzle.book;
+    let nextIndex = selectedPuzzle.index + 1;
+    console.log("Nächstes Puzzle - book:",book,"index",nextIndex);
+
+    if (nextIndex < puzzles[book].length) {
+        selectedPuzzle.index = nextIndex;
+        let puzzle = puzzles[book][nextIndex];
+
+        console.log("Puzzle", puzzle, "Ziffern", puzzle.numbers);
+        solutions = puzzle.numbers;
+        operators = puzzle.operators;
+        results = bestimmeErgebnisse(solutions, operators);
+        inputValues = Array(9).fill("");
+
+        updateGrid();
+    } else {
+        showMessageModal("Kein weiteres Puzzle vorhanden");
+    }
+}
+
+
+function markPuzzleAsSolved() {
+    if (selectedPuzzle) {
+        puzzles[selectedPuzzle.book][selectedPuzzle.index].solved = true;
+        updatePuzzleList();
+    }
+}
+
 
 loadPuzzles();
 window.onload = function () {

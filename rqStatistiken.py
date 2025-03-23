@@ -262,4 +262,4 @@ if __name__ == "__main__":
 
     #print(rq3.allValidCiffers())
 
-    generateBook(10)
+    generateBook(50)
